@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clContentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="192dp">
+
+    <EditText
+        android:id="@+id/etText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="17dp"
+        android:gravity="center"
+        android:text="Font"
+        android:textColor="#231F20"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/rcyFont"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rcyFont" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcyFont"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="48dp"
+        app:layout_constraintBottom_toTopOf="@id/rcyBackgroundColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="17dp"
+        android:gravity="center"
+        android:text="Background Color"
+        android:textColor="#231F20"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/rcyBackgroundColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rcyBackgroundColor" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcyBackgroundColor"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="124dp"
+        app:layout_constraintBottom_toTopOf="@id/rcyFontColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rcyFont" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="17dp"
+        android:gravity="center"
+        android:text="Font Color"
+        android:textColor="#231F20"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/rcyFontColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rcyFontColor" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcyFontColor"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="81sp"
+        app:layout_constraintBottom_toTopOf="@id/sb_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rcyBackgroundColor" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="17dp"
+        android:gravity="center"
+        android:text="Font Size"
+        android:textColor="#231F20"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/sb_font_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sb_font_size" />
+
+    <SeekBar
+        android:id="@+id/sb_font_size"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="17dp"
+        android:max="150"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rcyFontColor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

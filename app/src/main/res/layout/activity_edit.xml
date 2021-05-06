@@ -1,9 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".EditActivity">
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Picture Editor"
+        android:textColor="#231F20"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <ImageView
+        android:id="@+id/ivSave"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <ImageView
+        android:id="@+id/sourceView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:textSize="0sp"
+            android:drawableTop="@drawable/selector_edit_text"/>
+
+        <RadioButton
+            android:id="@+id/rbEmoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_edit_emoji"/>
+
+        <RadioButton
+            android:id="@+id/rbSticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_edit_sticker"/>
+
+        <RadioButton
+            android:id="@+id/rbFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_edit_filter"/>
+
+    </RadioGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcyContent"
+        android:layout_width="0dp"
+        android:layout_height="320dp"
+        android:layout_marginBottom="65dp"
+        android:background="#80000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <EditText
+            android:id="@+id/etText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="17dp"
+            android:gravity="center"
+            android:text="Font"
+            android:textColor="#231F20"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/rcyFont"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rcyFont" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcyFont"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="48dp"
+            app:layout_constraintBottom_toTopOf="@id/rcyBackgroundColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="17dp"
+            android:gravity="center"
+            android:text="Background Color"
+            android:textColor="#231F20"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/rcyBackgroundColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rcyBackgroundColor" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcyBackgroundColor"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="124dp"
+            app:layout_constraintBottom_toTopOf="@id/rcyFontColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcyFont" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="17dp"
+            android:gravity="center"
+            android:text="Font Color"
+            android:textColor="#231F20"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/rcyFontColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rcyFontColor" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcyFontColor"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="81sp"
+            app:layout_constraintBottom_toTopOf="@id/sb_font_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcyBackgroundColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="17dp"
+            android:gravity="center"
+            android:text="Font Size"
+            android:textColor="#231F20"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/sb_font_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/sb_font_size" />
+
+        <SeekBar
+            android:id="@+id/sb_font_size"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginEnd="17dp"
+            android:max="150"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rcyFontColor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

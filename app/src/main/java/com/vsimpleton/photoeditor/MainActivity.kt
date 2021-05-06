@@ -1,10 +1,12 @@
 package com.vsimpleton.photoeditor
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.os.bundleOf
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.ActivityUtils
@@ -15,13 +17,11 @@ import com.vsimpleton.photoeditor.databinding.ActivityMainBinding
 import com.yalantis.ucrop.UCrop
 import java.io.File
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+private const val REQUEST_CODE_ALBUM = 0
+private const val REQUEST_CODE_CAMERA = 1
+const val EXTRA_URI = "uri"
 
-    companion object {
-        private const val REQUEST_PERMISSION_WRITE = 0
-        private const val REQUEST_PERMISSION_CAMERA = 1
-        const val EXTRA_URI = "uri"
-    }
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private var uri: Uri? = null
 
@@ -41,27 +41,57 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun openAlbum() {
-        PermissionHelper.requestPermission(PermissionConstants.STORAGE) {
-            ActivityUtils.startActivityForResult(
-                this,
-                Intent("android.intent.action.PICK", MediaStore.Images.Media.EXTERNAL_CONTENT_URI),
-                REQUEST_PERMISSION_WRITE
-            )
+        if (PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
+            startAlbum()
+        } else {
+            PermissionUtils.permission(PermissionConstants.STORAGE)
+                .callback(object : PermissionUtils.SimpleCallback {
+                    override fun onGranted() {
+                        startAlbum()
+                    }
+
+                    override fun onDenied() {
+
+                    }
+                }).request()
         }
     }
 
     private fun openCamera() {
-        PermissionHelper.requestPermission(PermissionConstants.CAMERA) {
-            val file = File(cacheDir, "${System.currentTimeMillis()}.jpg")
-            if (FileUtils.createOrExistsFile(file)) {
-                uri = UriUtils.file2Uri(file)
-                ActivityUtils.startActivityForResult(
-                    this, Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                        putExtra(MediaStore.EXTRA_OUTPUT, uri)
-                    },
-                    REQUEST_PERMISSION_CAMERA
-                )
-            }
+        if (PermissionUtils.isGranted(PermissionConstants.CAMERA)) {
+            startCapture()
+        } else {
+            PermissionUtils.permission(PermissionConstants.CAMERA)
+                .callback(object : PermissionUtils.SimpleCallback {
+                    override fun onGranted() {
+                        startCapture()
+                    }
+
+                    override fun onDenied() {
+
+                    }
+                }).request()
+        }
+    }
+
+    private fun startAlbum() {
+        ActivityUtils.startActivityForResult(
+            this,
+            Intent("android.intent.action.PICK", MediaStore.Images.Media.EXTERNAL_CONTENT_URI),
+            REQUEST_CODE_ALBUM
+        )
+    }
+
+    private fun startCapture() {
+        val file = File(cacheDir, "${System.currentTimeMillis()}.jpg")
+        if (FileUtils.createOrExistsFile(file)) {
+            uri = UriUtils.file2Uri(file)
+            ActivityUtils.startActivityForResult(
+                this, Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                    putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                },
+                REQUEST_CODE_CAMERA
+            )
         }
     }
 
@@ -69,7 +99,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                REQUEST_PERMISSION_WRITE -> {
+                REQUEST_CODE_ALBUM -> {
                     data?.data?.let {
                         UCrop.of(it, Uri.fromFile(File(cacheDir, "temp")))
                             .withOptions(UCrop.Options().apply {
@@ -78,7 +108,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             }).start(this)
                     }
                 }
-                REQUEST_PERMISSION_CAMERA -> {
+                REQUEST_CODE_CAMERA -> {
                     uri?.let {
                         UCrop.of(it, Uri.fromFile(File(cacheDir, "temp")))
                             .withOptions(UCrop.Options().apply {
