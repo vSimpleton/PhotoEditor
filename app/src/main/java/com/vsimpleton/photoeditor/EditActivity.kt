@@ -13,7 +13,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 
     private val mEditAdapter: EditAdapter by lazy { EditAdapter() }
     private val mFontAdapter: FontAdapter by lazy { FontAdapter() }
-    private val mColorAdapter: ColorAdapter by lazy { ColorAdapter() }
+    private val mBackgroundColorAdapter: ColorAdapter by lazy { ColorAdapter() }
+    private val mFontColorAdapter: ColorAdapter by lazy { ColorAdapter() }
     private var currentId = 0
 
     private val uri: Uri by lazy {
@@ -23,8 +24,13 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initView()
         initListener()
         initRecyclerView()
+    }
+
+    private fun initView() {
+        mBinding.mixtureView.setImageUri(uri)
     }
 
     private fun initRecyclerView() {
@@ -40,12 +46,32 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         val colorLayoutManager = LinearLayoutManager(this)
         colorLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         mBinding.rcyBackgroundColor.layoutManager = colorLayoutManager
-        mBinding.rcyBackgroundColor.adapter = mColorAdapter
+        mBinding.rcyBackgroundColor.adapter = mBackgroundColorAdapter
 
         val fontColorLayoutManager = LinearLayoutManager(this)
         fontColorLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         mBinding.rcyFontColor.layoutManager = fontColorLayoutManager
-        mBinding.rcyFontColor.adapter = mColorAdapter
+        mBinding.rcyFontColor.adapter = mFontColorAdapter
+
+        initAdapterListener()
+    }
+
+    private fun initAdapterListener() {
+        mEditAdapter.onItemClickListener = {
+
+        }
+
+        mFontAdapter.onItemClickListener = {
+
+        }
+
+        mBackgroundColorAdapter.onItemClickListener = {
+
+        }
+
+        mFontColorAdapter.onItemClickListener = {
+
+        }
     }
 
     private fun initListener() {
@@ -63,7 +89,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     mBinding.rcyContent.visibility = View.GONE
                     mBinding.clTextLayout.visibility = View.VISIBLE
                     mFontAdapter.setData(DataHelper.getFontLists(this))
-                    mColorAdapter.setData(DataHelper.getColorLists())
+                    mBackgroundColorAdapter.setData(DataHelper.getColorLists())
+                    mFontColorAdapter.setData(DataHelper.getColorLists())
                 }
                 R.id.rbEmoji -> {
                     mBinding.rcyContent.visibility = View.VISIBLE

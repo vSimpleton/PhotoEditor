@@ -36,8 +36,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <ImageView
-        android:id="@+id/sourceView"
+    <com.vsimpleton.photoeditor.MixtureView
+        android:id="@+id/mixtureView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
