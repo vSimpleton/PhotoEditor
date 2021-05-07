@@ -1,18 +1,17 @@
-package com.vsimpleton.photoeditor
+package com.vsimpleton.photoeditor.view
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.core.os.bundleOf
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.UriUtils
+import com.vsimpleton.photoeditor.R
 import com.vsimpleton.photoeditor.databinding.ActivityMainBinding
 import com.yalantis.ucrop.UCrop
 import java.io.File

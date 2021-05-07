@@ -1,4 +1,4 @@
-package com.vsimpleton.photoeditor
+package com.vsimpleton.photoeditor.adapter
 
 import android.graphics.Typeface
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.vsimpleton.photoeditor.R
 
 class FontAdapter : RecyclerView.Adapter<FontAdapter.ViewHolder>() {
 

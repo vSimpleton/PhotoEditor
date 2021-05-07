@@ -1,4 +1,4 @@
-package com.vsimpleton.photoeditor
+package com.vsimpleton.photoeditor.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.blankj.utilcode.util.ConvertUtils
+import com.vsimpleton.photoeditor.R
 
 class EditAdapter : RecyclerView.Adapter<EditAdapter.ViewHolder>() {
 

@@ -1,4 +1,4 @@
-package com.vsimpleton.photoeditor
+package com.vsimpleton.photoeditor.view
 
 import android.os.Bundle
 import android.view.LayoutInflater

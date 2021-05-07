@@ -1,4 +1,4 @@
-package com.vsimpleton.photoeditor
+package com.vsimpleton.photoeditor.adapter
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.vsimpleton.photoeditor.R
 
 class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ViewHolder>() {
 
