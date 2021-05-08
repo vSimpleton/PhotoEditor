@@ -14,10 +14,10 @@ import android.widget.TextView
 import com.blankj.utilcode.util.*
 import com.vsimpleton.filter.IImageFilter
 import com.vsimpleton.filter.Image
-import com.vsimpleton.photoeditor.bean.EmojiInfo
-import com.vsimpleton.photoeditor.bean.StickerInfo
-import com.vsimpleton.photoeditor.bean.TextInfo
-import com.vsimpleton.photoeditor.bean.ViewInfo
+import com.vsimpleton.photoeditor.bean.EmojiEntry
+import com.vsimpleton.photoeditor.bean.StickerEntry
+import com.vsimpleton.photoeditor.bean.TextEntry
+import com.vsimpleton.photoeditor.bean.BaseEntry
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.min
@@ -47,11 +47,11 @@ class MixtureView @JvmOverloads constructor(
 
     private var mElementCanvas: Canvas? = null
 
-    private var mViewInfoLists = mutableListOf<ViewInfo>()
-    private var mCurrentInfo: ViewInfo = ViewInfo()
-    private var mTextInfo: TextInfo = TextInfo()
-    private var mEmojiInfo: EmojiInfo = EmojiInfo()
-    private var mStickerInfo: StickerInfo = StickerInfo()
+    private var mViewEntryLists = mutableListOf<BaseEntry>()
+    private var mCurrentEntry: BaseEntry = BaseEntry()
+    private var mTextEntry: TextEntry = TextEntry()
+    private var mEmojiEntry: EmojiEntry = EmojiEntry()
+    private var mStickerEntry: StickerEntry = StickerEntry()
 
     private var isTextTouch = false
     private var isEmojiTouch = false
@@ -88,12 +88,12 @@ class MixtureView @JvmOverloads constructor(
     }
 
     fun addText(textView: TextView) {
-        mTextInfo = TextInfo(
+        mTextEntry = TextEntry(
             textView.text.toString(), mCenterX,
             mCenterY, 0f, 1f, ImageUtils.view2Bitmap(textView)
         )
 
-        mViewInfoLists.add(mTextInfo)
+        mViewEntryLists.add(mTextEntry)
         invalidate()
     }
 
@@ -115,7 +115,7 @@ class MixtureView @JvmOverloads constructor(
             canvas.restore()
 
             mElementCanvas?.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR)
-            mViewInfoLists.forEach {
+            mViewEntryLists.forEach {
                 mElementCanvas?.save()
                 mElementCanvas?.rotate(it.angle, it.centerX, it.centerY)
                 mElementCanvas?.scale(it.scale, it.scale, it.centerX, it.centerY)
@@ -147,7 +147,7 @@ class MixtureView @JvmOverloads constructor(
 
             override fun onLongPress(e: MotionEvent?) {
                 if (isTextTouch || isEmojiTouch || isStickerTouch) {
-                    mViewInfoLists.remove(mCurrentInfo)
+                    mViewEntryLists.remove(mCurrentEntry)
                 }
                 super.onLongPress(e)
             }
@@ -158,7 +158,7 @@ class MixtureView @JvmOverloads constructor(
             var scale = 1.0f
             override fun onScale(detector: ScaleGestureDetector): Boolean {
                 scale *= detector.scaleFactor
-                mCurrentInfo.scale = scale
+                mCurrentEntry.scale = scale
                 invalidate()
                 return true
             }
@@ -190,16 +190,16 @@ class MixtureView @JvmOverloads constructor(
 
                     when {
                         isTextTouch -> {
-                            mTextInfo.centerX = mTextInfo.centerX + moveX
-                            mTextInfo.centerY = mTextInfo.centerY + moveY
+                            mTextEntry.centerX = mTextEntry.centerX + moveX
+                            mTextEntry.centerY = mTextEntry.centerY + moveY
                         }
                         isEmojiTouch -> {
-                            mEmojiInfo.centerX = mEmojiInfo.centerX + moveX
-                            mEmojiInfo.centerY = mEmojiInfo.centerY + moveY
+                            mEmojiEntry.centerX = mEmojiEntry.centerX + moveX
+                            mEmojiEntry.centerY = mEmojiEntry.centerY + moveY
                         }
                         isStickerTouch -> {
-                            mStickerInfo.centerX = mStickerInfo.centerX + moveX
-                            mStickerInfo.centerY = mStickerInfo.centerY + moveY
+                            mStickerEntry.centerX = mStickerEntry.centerX + moveX
+                            mStickerEntry.centerY = mStickerEntry.centerY + moveY
                         }
                     }
 
@@ -218,24 +218,24 @@ class MixtureView @JvmOverloads constructor(
                     when {
                         isTextTouch -> {
                             preTextAngle = rotateAngle(
-                                mTextInfo.centerX,
-                                mTextInfo.centerY,
+                                mTextEntry.centerX,
+                                mTextEntry.centerY,
                                 event.getX(1),
                                 event.getY(1)
                             )
                         }
                         isEmojiTouch -> {
                             preEmojiAngle = rotateAngle(
-                                mEmojiInfo.centerX,
-                                mEmojiInfo.centerY,
+                                mEmojiEntry.centerX,
+                                mEmojiEntry.centerY,
                                 event.getX(1),
                                 event.getY(1)
                             )
                         }
                         isStickerTouch -> {
                             preStickerAngle = rotateAngle(
-                                mStickerInfo.centerX,
-                                mStickerInfo.centerY,
+                                mStickerEntry.centerX,
+                                mStickerEntry.centerY,
                                 event.getX(1),
                                 event.getY(1)
                             )
@@ -262,20 +262,20 @@ class MixtureView @JvmOverloads constructor(
     }
 
     fun addEmoji(emoji: String) {
-        mEmojiInfo = EmojiInfo(
+        mEmojiEntry = EmojiEntry(
             emoji, mCenterX, mCenterY,
             0f, 1f, ImageUtils.getBitmap(context.assets.open(emoji))
         )
-        mViewInfoLists.add(mEmojiInfo)
+        mViewEntryLists.add(mEmojiEntry)
         invalidate()
     }
 
     fun addSticker(sticker: String) {
-        mStickerInfo = StickerInfo(
+        mStickerEntry = StickerEntry(
             sticker, mCenterX, mCenterY,
             0f, 1f, BitmapFactory.decodeStream(context.assets.open(sticker))
         )
-        mViewInfoLists.add(mStickerInfo)
+        mViewEntryLists.add(mStickerEntry)
         invalidate()
     }
 
@@ -300,7 +300,7 @@ class MixtureView @JvmOverloads constructor(
         })
     }
 
-    private fun isInfoTouch(x: Float, y: Float, info: ViewInfo): Boolean {
+    private fun isInfoTouch(x: Float, y: Float, info: BaseEntry): Boolean {
         val cos = cos(info.angle * 0.017453292519943295f)
         val sin = sin(info.angle * 0.017453292519943295f)
         val cX: Float = info.centerX + (x - info.centerX) * cos - (y - info.centerY) * sin
@@ -314,28 +314,28 @@ class MixtureView @JvmOverloads constructor(
     }
 
     private fun whatTouch(x: Float, y: Float) {
-        mViewInfoLists.reversed().forEach {
+        mViewEntryLists.reversed().forEach {
             if (isTextTouch || isEmojiTouch || isStickerTouch) {
                 return@forEach
             }
             when (it) {
-                is TextInfo -> {
-                    mTextInfo = it
+                is TextEntry -> {
+                    mTextEntry = it
                     isTextTouch = isInfoTouch(x, y, it)
                 }
-                is EmojiInfo -> {
-                    mEmojiInfo = it
+                is EmojiEntry -> {
+                    mEmojiEntry = it
                     isEmojiTouch = isInfoTouch(x, y, it)
                 }
-                is StickerInfo -> {
-                    mStickerInfo = it
+                is StickerEntry -> {
+                    mStickerEntry = it
                     isStickerTouch = isInfoTouch(x, y, it)
                 }
             }
             if (isTextTouch || isEmojiTouch || isStickerTouch) {
-                mCurrentInfo = it
-                mViewInfoLists.remove(it)
-                mViewInfoLists.add(it)
+                mCurrentEntry = it
+                mViewEntryLists.remove(it)
+                mViewEntryLists.add(it)
             }
         }
     }
@@ -345,20 +345,20 @@ class MixtureView @JvmOverloads constructor(
     }
 
     private fun setTextAngle(x: Float, y: Float) {
-        val rotateAngle = rotateAngle(mTextInfo.centerX, mTextInfo.centerY, x, y)
-        mTextInfo.angle += rotateAngle - preTextAngle
+        val rotateAngle = rotateAngle(mTextEntry.centerX, mTextEntry.centerY, x, y)
+        mTextEntry.angle += rotateAngle - preTextAngle
         preTextAngle = rotateAngle
     }
 
     private fun setEmojiAngle(x: Float, y: Float) {
-        val rotateAngle = rotateAngle(mEmojiInfo.centerX, mEmojiInfo.centerY, x, y)
-        mEmojiInfo.angle += rotateAngle - preEmojiAngle
+        val rotateAngle = rotateAngle(mEmojiEntry.centerX, mEmojiEntry.centerY, x, y)
+        mEmojiEntry.angle += rotateAngle - preEmojiAngle
         preEmojiAngle = rotateAngle
     }
 
     private fun setStickerAngle(x: Float, y: Float) {
-        val rotateAngle = rotateAngle(mStickerInfo.centerX, mStickerInfo.centerY, x, y)
-        mStickerInfo.angle += rotateAngle - preStickerAngle
+        val rotateAngle = rotateAngle(mStickerEntry.centerX, mStickerEntry.centerY, x, y)
+        mStickerEntry.angle += rotateAngle - preStickerAngle
         preStickerAngle = rotateAngle
     }
 
@@ -369,8 +369,8 @@ class MixtureView @JvmOverloads constructor(
             val canvas = Canvas(createBitmap)
             canvas.save()
             canvas.drawBitmap(it, 0f, 0f, null)
-            mElementBitmap?.let { fore ->
-                canvas.drawBitmap(ImageUtils.scale(fore, 1 / mScale, 1 / mScale), 0f, 0f, null)
+            mElementBitmap?.let { bitmap ->
+                canvas.drawBitmap(ImageUtils.scale(bitmap, 1 / mScale, 1 / mScale), 0f, 0f, null)
             }
             canvas.restore()
             return createBitmap

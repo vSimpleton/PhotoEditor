@@ -14,10 +14,8 @@ import com.blankj.utilcode.util.ConvertUtils.dp2px
 import com.vsimpleton.photoeditor.R
 import com.vsimpleton.photoeditor.RatingView
 import com.vsimpleton.photoeditor.utlis.BitmapManager
-import com.vsimpleton.photoeditor.utlis.PermissionHelper
 import com.vsimpleton.photoeditor.databinding.ActivityResultBinding
 import java.io.File
-import java.io.OutputStream
 import kotlin.math.min
 
 class ResultActivity : BaseActivity<ActivityResultBinding>() {
